@@ -117,6 +117,6 @@ class EnrollmentController extends Controller
         
         return redirect()
                 ->route('enrollments.index')
-                ->with('success', 'Enrollment created successfully.');
+                ->with('success', 'Enrollment deleted successfully.');
     }
 }

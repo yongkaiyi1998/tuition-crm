@@ -34,7 +34,7 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'enrollment_id' => 'required||exists:invoices,id|unique:invoices',
+            'enrollment_id' => 'required|exists:enrollments,id|unique:invoices',
             'due_date'      => 'nullable|date',
         ]);
 
@@ -92,6 +92,6 @@ class InvoiceController extends Controller
         
         return redirect()
                 ->route('invoices.index')
-                ->with('success', 'Enrollment deleted successfully.');
+                ->with('success', 'Invoice deleted successfully.');
     }
 }

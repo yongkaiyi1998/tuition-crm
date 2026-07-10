@@ -66,7 +66,7 @@ class StudentController extends Controller
 
         return redirect()
                 ->route('students.index')
-                ->with('success', 'Enrollment updated successfully.');
+                ->with('success', 'Student updated successfully.');
     }
 
     /**
@@ -78,6 +78,6 @@ class StudentController extends Controller
         
         return redirect()
             ->route('students.index')
-            ->with('success', 'Enrollment deleted successfully.');;
+            ->with('success', 'Student deleted successfully.');;
     }
 }

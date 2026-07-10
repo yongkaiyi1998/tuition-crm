@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -43,14 +44,16 @@ class PaymentController extends Controller
 
         $validated['payment_no']    = 'TEMP';
 
-        $invoice = Invoice::findOrFail($request->invoice_id);
+        DB::transaction(function () use ($validated) {
+            $invoice = Invoice::findOrFail($validated['invoice_id']);
 
-        $payment = Payment::create($validated);
-        $payment->payment_no = 'PAY-' . date('Y') . '-' . str_pad($payment->id, 5, '0', STR_PAD_LEFT);
-        $payment->save();
+            $payment = Payment::create($validated);
+            $payment->payment_no = 'PAY-' . date('Y') . '-' . str_pad($payment->id, 5, '0', STR_PAD_LEFT);
+            $payment->save();
 
-        $invoice->recalculate();
-
+            $invoice->recalculate();
+        });
+    
         return redirect()
             ->route('payments.index')
             ->with('success', 'Payment recorded successfully');
@@ -85,11 +88,12 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
-        $payment->update([
-            'status' => 'cancelled'
-        ]);
-
-        $payment->invoice->recalculate();
+        DB::transaction(function () use ($payment) {
+            $payment->update([
+                'status' => 'cancelled'
+            ]);
+            $payment->invoice->recalculate();
+        });
 
         return redirect()
             ->route('payments.index')
