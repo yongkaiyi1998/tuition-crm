@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
@@ -27,17 +29,9 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCourseRequest $request)
     {
-        $validated = $request->validate([
-            'name'          => ['required', 'string', 'max:255'],
-            'description'   => ['nullable', 'string'],
-            'fee'           => ['required', 'numeric', 'min:0'],
-            'duration'      => ['nullable', 'integer', 'min:1'],
-            'duration_type' => ['nullable', 'in:day,week,month,year']
-        ]);
-
-        Course::create($validated);
+        Course::create($request->validated());
 
         return redirect()
             ->route('courses.index')
@@ -55,18 +49,9 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course)
+    public function update(UpdateCourseRequest $request, Course $course)
     {
-        $validated = $request->validate([
-            'name'          => ['required', 'string', 'max:255'],
-            'description'   => ['nullable', 'string'],
-            'fee'           => ['required', 'numeric', 'min:0'],
-            'duration'      => ['nullable', 'integer', 'min:1'],
-            'duration_type' => ['nullable', 'in:day,week,month,year'],
-            'status'        => ['required', 'in:active,inactive']
-        ]);
-
-        $course->update($validated);
+        $course->update($request->validated());
 
         return redirect()
                 ->route('courses.index')

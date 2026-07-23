@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEnrollmentRequest;
+use App\Http\Requests\UpdateEnrollmentRequest;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Student;
@@ -33,22 +35,9 @@ class EnrollmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreEnrollmentRequest $request)
     {
-        $validated = $request->validate([
-            'student_id'    => [
-                'required',
-                'exists:students,id',
-                Rule::unique('enrollments')->where(function ($query) use ($request) {
-                    return $query->where('course_id', $request->course_id);
-                })
-            ],
-            'course_id'     => 'required|exists:courses,id',
-            'enroll_date'   => 'required|date',
-            'final_fee'     => 'required|numeric|min:0',
-        ], [
-            'student_id.unique' => 'This student is already enrolled in this course.' 
-        ]);
+        $validated = $request->validated();
 
         $course = Course::findOrFail($validated['course_id']);
 
@@ -76,25 +65,9 @@ class EnrollmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Enrollment $enrollment)
+    public function update(UpdateEnrollmentRequest $request, Enrollment $enrollment)
     {
-        $validated = $request->validate([
-            'student_id' => [
-                'required',
-                'exists:students,id',
-                Rule::unique('enrollments')
-                    ->where(fn ($query) =>
-                        $query->where('course_id', $request->course_id)
-                    )
-                    ->ignore($enrollment->id),
-            ],
-            'course_id'     => 'required|exists:courses,id',
-            'enroll_date'   => 'required|date',
-            'final_fee'     => 'required|numeric|min:0',
-            'status'        => 'required|in:active,completed,cancelled'
-        ], [
-            'student_id.unique' => 'This student is already enrolled in this course.' 
-        ]);
+        $validated = $request->validated();
 
         $course = Course::findOrFail($validated['course_id']);
 

@@ -64,8 +64,10 @@
                 </select>
             </div>
 
-            <a href="{{ route('enrollments.index') }}" class="btn btn-outline-danger">Back</a>
-            <button class="btn btn-primary">Update</button>
+            <div class="d-flex justify-content-between pt-3 border-top">
+                <a href="{{ route('enrollments.index') }}" class="btn btn-outline-danger">Back</a>
+                <button class="btn btn-primary">Update Enrollment</button>
+            </div>
         </form>
     </div>
 </div>

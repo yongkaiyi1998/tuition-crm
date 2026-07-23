@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInvoiceRequest;
+use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Enrollment;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
@@ -31,12 +33,9 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreInvoiceRequest $request)
     {
-        $validated = $request->validate([
-            'enrollment_id' => 'required|exists:enrollments,id|unique:invoices',
-            'due_date'      => 'nullable|date',
-        ]);
+        $validated = $request->validated();
 
         $enrollment = Enrollment::with(['student', 'course'])->findOrFail($validated['enrollment_id']);
         
@@ -70,11 +69,9 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
-        $validated = $request->validate([
-            'due_date'      => 'date'
-        ]);
+        $validated = $request->validated();
 
         $invoice->update($validated);
 

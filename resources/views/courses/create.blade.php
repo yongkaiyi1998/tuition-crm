@@ -62,8 +62,10 @@
                 </div>
             </div>
 
-            <a href="{{ route('courses.index') }}" class="btn btn-outline-danger">Back</a>
-            <button class="btn btn-primary">Create</button>
+            <div class="d-flex justify-content-between pt-3 border-top">
+                <a href="{{ route('courses.index') }}" class="btn btn-outline-danger">Back</a>
+                <button class="btn btn-primary">Create Course</button>
+            </div>
         </form>
     </div>
 </div>

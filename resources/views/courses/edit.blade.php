@@ -11,6 +11,17 @@
     </div>
 
     <div class="card-body">
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        
         <form method="POST" action="{{ route('courses.update', $course->id) }}">
             @csrf
             @method('PUT')
@@ -62,8 +73,10 @@
                 </div>
             </div>
 
-            <a href="{{ route('courses.index') }}" class="btn btn-outline-danger">Back</a>
-            <button class="btn btn-primary">Save</button>
+            <div class="d-flex justify-content-between pt-3 border-top">
+                <a href="{{ route('courses.index') }}" class="btn btn-outline-danger">Back</a>
+                <button class="btn btn-primary">Update Course</button>
+            </div>
         </form>
     </div>
 </div>

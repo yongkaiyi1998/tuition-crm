@@ -25,17 +25,33 @@
             @csrf
             @method('PUT')
 
-            <input class="form-control mb-2" name="name" value="{{ $student->name }}">
-            <input class="form-control mb-2" name="phone" value="{{ $student->phone }}">
-            <input class="form-control mb-2" name="email" value="{{ $student->email }}">
+            <div class="mb-3">
+                <label class="form-label">Name <span class="text-danger">*</span></label>
+                <input class="form-control mb-2" name="name" value="{{ $student->name }}">
+            </div>
 
-            <select class="form-control mb-2" name="status">
-                <option value="active" {{ $student->status == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ $student->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
-            </select>
+            <div class="mb-3">
+                <label class="form-label">Phone <span class="text-danger">*</span></label>
+                <input class="form-control mb-2" name="phone" value="{{ $student->phone }}">
+            </div>
 
-            <a href="{{ route('students.index') }}" class="btn btn-outline-danger">Back</a>
-            <button class="btn btn-primary">Update</button>
+            <div class="mb-3">
+                <label class="form-label">Email <span class="text-danger">*</span></label>
+                <input class="form-control mb-2" name="email" value="{{ $student->email }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Status <span class="text-danger">*</span></label>
+                <select class="form-control mb-2" name="status">
+                    <option value="active" {{ $student->status == 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="inactive" {{ $student->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-between pt-3 border-top">
+                <a href="{{ route('students.index') }}" class="btn btn-outline-danger">Back</a>
+                <button class="btn btn-primary">Update Student</button>
+            </div>
         </form>
     </div>
 </div>

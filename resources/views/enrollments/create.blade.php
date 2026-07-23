@@ -54,8 +54,10 @@
                 <input type="date" name="enroll_date" class="form-control" value="{{ now()->format('Y-m-d') }}">
             </div>
 
-            <a href="{{ route('enrollments.index') }}" class="btn btn-outline-danger">Back</a>
-            <button class="btn btn-success">Create</button>
+            <div class="d-flex justify-content-between pt-3 border-top">
+                <a href="{{ route('enrollments.index') }}" class="btn btn-outline-danger">Back</a>
+                <button class="btn btn-primary">Create Enrollment</button>
+            </div>
         </form>
     </div>
 </div>

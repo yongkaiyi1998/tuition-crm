@@ -119,15 +119,15 @@
                     @yield('page-title')
                 </h5>
 
-                <div>
+                <div class="d-flex align-items-center justify-content-between gap-3">
+                    <span>{{ auth()->user()->name }}</span>
 
-                    {{ auth()->user()->name }}
-
-                    <a href="/logout"
-                       class="btn btn-sm btn-outline-danger ms-2">
-                        Logout
-                    </a>
-
+                    <form action="{{ route('logout') }}" method="POST" class="mb-0">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            Logout
+                        </button>
+                    </form>
                 </div>
 
             </div>

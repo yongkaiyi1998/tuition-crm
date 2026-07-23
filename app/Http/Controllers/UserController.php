@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -29,14 +32,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $validated = $request->validate([
-            'name'      => 'required',
-            'email'     => 'required|email|unique:users',
-            'password'  => 'required|min:6',
-            'role'      => 'required|in:admin,staff',
-        ]);
+        $validated = $request->validated();
 
         User::create([
             'name' => $validated['name'],
@@ -61,13 +59,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $validated = $request->validate([
-            'name'      => 'required',
-            'email'     => 'required|email|unique:users,email,'.$user->id,
-            'role'      => 'required|in:admin,staff',
-        ]);
+        $validated = $request->validated();
 
         $user->update($validated);
 
@@ -88,15 +82,9 @@ class UserController extends Controller
                 ->with('success', 'User deleted successfully.');
     }
 
-    public function resetPassword(Request $request, User $user)
+    public function resetPassword(UpdatePasswordRequest $request, User $user)
     {
-        $validated = $request->validate([
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(6)
-            ]
-        ]);
+        $validated = $request->validated();
 
         $user->update([
             'password' => Hash::make($validated['password'])
