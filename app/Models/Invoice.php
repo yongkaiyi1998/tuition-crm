@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
@@ -25,6 +26,21 @@ class Invoice extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function scopeSearch (Builder $query, $search) 
+    {
+        if (blank($search)) {
+            return $query;
+        }
+
+        return $query->where(function($q) use ($search){
+            $q->whereHas('enrollment', function ($enrollment) use ($search){
+                $enrollment->whereHas('student', function ($student) use ($search){
+                    $student->where('name', 'like', "%{$search}%");
+                });
+            })->orWhere('invoice_no', 'like', "%{$search}%");
+        });
     }
 
     public function recalculate()

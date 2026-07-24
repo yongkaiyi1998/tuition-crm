@@ -12,9 +12,15 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $courses = Course::latest()->get();
+        $courses = Course::query()
+                    ->search($request->search)
+                    ->status($request->status)
+                    ->latest()
+                    ->paginate(10)
+                    ->withQueryString();
+        
         return view('courses.index', compact('courses'));
     }
 

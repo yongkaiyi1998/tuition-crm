@@ -31,12 +31,12 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Phone <span class="text-danger">*</span></label>
+                <label class="form-label">Phone</label>
                 <input class="form-control mb-2" name="phone" value="{{ $student->phone }}">
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Email <span class="text-danger">*</span></label>
+                <label class="form-label">Email</label>
                 <input class="form-control mb-2" name="email" value="{{ $student->email }}">
             </div>
 

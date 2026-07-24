@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Student;
+use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::latest()->get();
+        $students = Student::query()
+                        ->search($request->search)
+                        ->latest()
+                        ->paginate(10)
+                        ->withQueryString();
+
         return view('students.index', compact('students'));
     }
 

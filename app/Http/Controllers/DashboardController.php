@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function index() {
         $totalStudents          = Student::count();
-        $activeCourses          = Course::active()->count();
+        $activeCourses          = Course::status('active')->count();
         $totalRevenue           = Payment::paid()->sum('amount');
         $outstanding            = Invoice::sum('balance');
         $recentPayments         = Payment::with('invoice.enrollment.student')

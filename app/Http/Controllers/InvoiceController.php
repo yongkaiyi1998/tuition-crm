@@ -6,7 +6,6 @@ use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Enrollment;
 use App\Models\Invoice;
-use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {

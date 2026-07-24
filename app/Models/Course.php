@@ -20,8 +20,24 @@ class Course extends Model
         return $this->hasMany(Enrollment::class);
     }
 
-    public function scopeActive(Builder $query)
+    public function scopeSearch(Builder $query, $search) 
     {
-        return $query->where('status', 'active');
+        if (blank($search)) {
+            return $query;
+        }
+
+        return $query->where(function($q) use ($search){
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('fee', 'like', "%{$search}%");
+        });
+    }
+
+    public function scopeStatus(Builder $query, $status)
+    {
+        if (blank($status)) {
+            return $query;
+        }
+
+        return $query->where('status', $status);
     }
 }
